@@ -1,0 +1,29 @@
+version: "3.8"
+services:
+  server:
+    container_name: markist_server
+    build: .
+    ports:
+      - "4000:4000"
+    env_file:
+      - .env
+    restart: unless-stopped
+    command: npm start
+    depends_on:
+      - db
+  db:
+    container_name: markist_db
+    image: postgres
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    restart: unless-stopped
+
+networks:
+  default:
+    name: rmarkist_backend
+volumes:
+  postgres_data:
