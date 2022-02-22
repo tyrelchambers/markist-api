@@ -15,6 +15,13 @@ const router = express.Router();
 router.post("/upload", upload.single("file"), (req, res) => {
   const title = req.body.title;
   const file = req.file;
+  const { accesstoken } = req.headers;
+
+  if (!accesstoken) {
+    return res.status(401).json({
+      error: "Access token is required",
+    });
+  }
 
   console.log(title);
   console.log(file);
